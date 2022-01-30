@@ -19,9 +19,13 @@ Thus, when creating a new tire, a POST request is sent to microservice 1 - *micr
 
 In order to deploy the approach solution, we are using **docker images** for constructing the containers in order to build the microservices and microfrontends and access them on different ports.
 
-## SOA Patterns
-
-## SOA Fundamentals
+## Service oriented architecture patterns
+1. Microservices Pattern - decoupled applications
+2. Publish/subscribe - using RabbitMQ message brokers
+3. Available REST Api via NestJs Controllers
+4. Database/Shared Data Pattern - integration and syncronization between two different databases: MySQL and MongoDB.
+5. Loose coupling between consumers and services, and between the services themselves.
+6. Run-time environment autonomy - modules are separately deployed and run in docker.
 
 ## Microservices
 - **micro-project-soa** 
@@ -44,6 +48,20 @@ In order to deploy the approach solution, we are using **docker images** for con
 
 ## Secured REST Service
 
+The REST Api controller is secured via **AuthorizationGuard** service. So, for accesing an API method, the cliend will need a valid bearer token. The generation and validation of the access token is done by Auth0 platform. 
+
+![Create TireController](documentation/create_api.jpg)
+
+With **Auth0**, you can manage the authorization requirements of this application-to-server architecture easily.
+
+Auth0 is a flexible, drop-in solution to add authentication and authorization services to the server-side application.
+
+A free account was created in order to integrate Auth0 with NestJs microservices.
+
+### Auth0 dashboard
+
+![Auth0](documentation/auth0_soa.jpg)
+
 ## Technologies:
 - Microservices: NestJs (RabbitMq message broker)
 - Microfrontends: Angular 12 (Webpack, Module Federation Plugin)
@@ -52,7 +70,7 @@ In order to deploy the approach solution, we are using **docker images** for con
 ## Use cases UML diagram
 ![Use Case UML Screenshot](documentation/tires_uml.png)
 
-## General Arhitecture
+## General Architecture
 ![Use Case UML Screenshot](documentation/app_arhitecture.jpg)
 
 ## Docker
@@ -85,26 +103,26 @@ In order to deploy the approach solution, we are using **docker images** for con
 ### 3. Container Diagram for the application
 ![Container App](documentation/app-c4model.png)
 
-## Component diagram
+## II. Component diagram
 
 ### 1. Component Diagram for Microservices:
-![SystemComponentDiagram Screenshot2]()
+![MS Component Diagram](documentation/ms-components.png)
 
 ### 2. Component Diagram for Microfrontends:
-![SystemComponentDiagram Screenshot2]()
-
-## Code
-### 1. Code Diagram for Microservices:
-![CodeDiagram Screenshot1]()
-
-### 2. Code Diagram for Microfrontends:
-![CodeDiagram Screenshot1]()
+![MS Component Diagram](documentation/mfs-components.png)
 
 # Conclusion 
 
+The web server is build using NestJs and it exposes REST services, and using internally microservices with RabbitMQ communication in between. 
 
-## UBB Cluj-Napoca - Faculty of Mathematics and Computer Science
-### Software Engineering, 2020 - 2022
+The Web application is consuming the REST services and is receiving or posting data by having a microfronend architecture based on webpack module federation using Angular 12. 	
+
+We used independent docker containers along with docker images in order to deploy the solution on localhost.
+
+```
+- UBB Cluj-Napoca - Faculty of Mathematics and Computer Science
+- Software Engineering, 2020 - 2022
 - 2st year - 1st semester
 - Software Oriented Architecture - Assessment
 - Linca Razvan Cosmin - Group: 258-2
+```
