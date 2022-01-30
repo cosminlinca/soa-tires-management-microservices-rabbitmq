@@ -1,0 +1,68 @@
+version: "3.5"
+
+services:
+
+  micro_client_1:
+    build:
+      dockerfile: micro-project-soa/Dockerfile
+      context: .
+    depends_on:
+      - db_mysql
+    ports:
+      - "8000:8000"
+
+  micro_client_2:
+    build:
+      dockerfile: main-app/Dockerfile
+      context: .
+    depends_on:
+      - mongodb
+    ports:
+      - "8001:8001"
+
+  micro_listener_1:
+    build:
+      dockerfile: main-app/ListenDockerfile
+      context: .
+
+  db_mysql:
+    image: mysql:5.7
+    restart: always
+    container_name: db_mysql
+    environment:
+      MYSQL_DATABASE: 'nest_main'
+      # So you don't have to use root, but you can if you like
+      MYSQL_ROOT_USER: 'root'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: 'rootroot'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'rootroot'
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3306:3306'
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+
+  mongodb:
+    image: mongo:5.0
+    restart: always
+    container_name: mongodb
+    ports:
+      - 27017:27017
+
+  rabbitmq:
+    image: rabbitmq:3.8-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+        - 5673:5672
+        - 15673:15672
+    volumes:
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+        - rabbitmq_nodejs
+
+networks:
+  rabbitmq_nodejs:
+    driver: bridge

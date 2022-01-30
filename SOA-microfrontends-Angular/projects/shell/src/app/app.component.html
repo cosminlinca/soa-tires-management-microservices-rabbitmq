@@ -1,0 +1,16 @@
+<ul>
+    <li><img style="padding-bottom: 8px;" src="../assets/car-tire-png-463.png" width="40"></li>
+    <li><a routerLink="/">Home</a></li>
+    <li *ngFor="let mfe of microfrontends"><a [routerLink]="mfe.routePath">{{mfe.displayName}}</a></li>
+    <li><a routerLink="/config">MF Config</a></li>
+</ul>
+<style>
+    body {
+        font-family: 'Helvetica', cursive;
+        padding-top: 80px;
+        padding-left: 10px;
+    }
+</style>
+
+
+<router-outlet></router-outlet>

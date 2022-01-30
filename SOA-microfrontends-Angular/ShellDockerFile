@@ -1,0 +1,35 @@
+FROM node:14.17 as builder
+
+COPY package.json  ./
+
+RUN yarn install 
+
+RUN mkdir /ng-app
+
+RUN mv ./node_modules ./ng-app
+
+WORKDIR /ng-app
+
+COPY . .
+
+# Arguments
+ARG ANGULAR_APP_API_BASE_URL
+ENV ANGULAR_APP_API_BASE_URL=${ANGULAR_APP_API_BASE_URL}
+
+# microfrontend envs
+ENV ANGULAR1_APP_API_BASE_URL http://localhost:3000/remoteEntry.js
+ENV ANGULAR2_APP_API_BASE_URL http://localhost:3000/remoteEntry.js
+
+# FROM webpack
+# RUN npm run ng build shell --prod
+RUN yarn ng build shell --prod
+
+FROM nginx
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /ng-app/dist/shell /usr/share/nginx/html
+
+EXPOSE 5000 80
+
+# RUN npm run ng start
+
+CMD ["nginx", "-g", "daemon off;"]

@@ -1,0 +1,26 @@
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let tire of tires">
+                <td>{{tire.id}}</td>
+                <td><img [src]="tire.image" width="80"></td>
+                <td>{{tire.title}}</td>
+                <td>{{tire.description}}</td>
+                <td>
+                    <div class="btn-group mr-2">
+                        <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" (click)="delete(tire.id)">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

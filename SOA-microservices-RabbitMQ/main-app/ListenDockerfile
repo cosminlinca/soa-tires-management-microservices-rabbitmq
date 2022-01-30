@@ -1,0 +1,44 @@
+# Specify node version and choose image
+FROM node:14.17 as build
+
+# Set working directory
+WORKDIR /app-listener-1
+
+# Copy the package.jsons from host to container
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+COPY ../main-app/package*.json .
+COPY ../main-app/tsconfig.build.json .
+COPY ../main-app/tsconfig.json .
+COPY ../main-app/listener.json .
+
+# Here we install all the deps
+RUN npm install
+
+RUN npm install @nestjs/cli
+
+# Bundle app source / copy all other files
+COPY ../main-app/ .
+
+# Build the app to the /dist folder
+RUN npm run build
+
+# Build another image
+FROM node:14.17
+
+# Set Working Directory
+WORKDIR /app-listener-1
+COPY ../main-app/package.json .
+COPY ../main-app/tsconfig.build.json .
+COPY ../main-app/tsconfig.json .
+COPY ../main-app/listener.json .
+RUN npm install --only=production
+RUN npm install @nestjs/cli
+
+# Copy all from build
+COPY --from=build /app-listener-1/dist ./dist
+
+# Run app
+CMD npm run listen
+
+
+

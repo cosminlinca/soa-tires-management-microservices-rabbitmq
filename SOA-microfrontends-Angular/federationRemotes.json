@@ -1,0 +1,12 @@
+{
+    "mfe1": {
+        "prod": "https://mfe1.domain.com/remoteEntry.js",
+        "stage": "https://mfe1-stage.domain.com/remoteEntry.js",
+        "local": "http://localhost:3000/remoteEntry.js"
+    },
+    "mfe2": {
+        "prod": "https://mfe2.domain.com/remoteEntry.js",
+        "stage": "https://mfe2-stage.domain.com/remoteEntry.js",
+        "local": "http://localhost:3001/remoteEntry.js"
+    }
+}

@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  shell:
+    build:
+      context: .
+      dockerfile: ShellDockerFile
+      args:
+        ANGULAR3_APP_API_BASE_URL: http://127.0.0.1:5000/
+    ports:
+      - "5000:80"
+    links:
+      - mfe1
+      - mfe2
+    container_name: shell-container
+    stdin_open: true
+
+  mfe1:
+    build:
+      context: .
+      dockerfile: Mfe1DockerFile
+      args:
+        ANGULAR1_APP_API_BASE_URL: http://127.0.0.1:3000/remoteEntry.js
+    ports:
+      - "3000:8080"
+    container_name: mfe1-container
+    stdin_open: true
+
+  mfe2:
+    build:
+      context: .
+      dockerfile: Mfe2DockerFile
+      args:
+        ANGULAR2_APP_API_BASE_URL: http://127.0.0.1:3001/remoteEntry.js
+    ports:
+      - "3001:8080"
+    links:
+      - mfe1
+    container_name: mfe2-container
+    stdin_open: true
